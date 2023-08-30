@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import UIForm from "../components/UIForm.vue";
+import ContactList from "../components/ContactList.vue";
 </script>
 
 <template>
   <UIForm />
-  <ul></ul>
+  <ContactList />
 </template>
 
 <style scoped></style>

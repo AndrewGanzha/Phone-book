@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import { setContact } from "../service/api";
 const isFormHide = ref<boolean>(false);
 let name = ref<string>();

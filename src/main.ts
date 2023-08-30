@@ -3,7 +3,7 @@ import "./style.css";
 import "./service/api";
 import App from "./App.vue";
 import Header from "./components/UIHeader.vue";
-import ContactList from "./views/ContactsList.vue";
+import ContactList from "./views/Contacts.vue";
 
 const app = createApp(App);
 app
