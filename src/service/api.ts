@@ -1,7 +1,7 @@
 interface Contact {
   name: string;
+  phone: number;
   email: string;
-  number: number;
 }
 
 // Создание пустой базы данных для будущей работы
@@ -15,19 +15,18 @@ function createContactDataBase() {
   }
 }
 // Получение всех контактов из базы данных
-function getAllContacts() {
+export function getAllContacts() {
   let contactDataBaseString = localStorage.getItem("contactDB");
   let contactDataBase = JSON.parse(contactDataBaseString!);
 }
 // Добавление нового контакта в БД
-function setContact() {
+export function setContact({ name, phone, email }: Contact) {
   let contacts = localStorage.getItem("contactDB.contact");
   const contactsArray = contacts ? JSON.parse(contacts) : [];
-  let newContact = { name: "Alex", age: 35, email: "123@mail.ru" };
+  let newContact = { name: name, phone: phone, email: email };
   contactsArray.push(newContact);
   const updateContact = JSON.stringify(contactsArray);
   localStorage.setItem("contactDB", updateContact);
 }
+
 createContactDataBase();
-setContact();
-getAllContacts();
