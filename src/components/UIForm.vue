@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { setContact } from "../service/api";
 const isFormHide = ref<boolean>(false);
-const name = ref<string>();
-const email = ref<string>();
-const phone = ref<number>();
+let name = ref<string>();
+let email = ref<string>();
+let phone = ref<number>();
 </script>
 
 <template>
@@ -19,7 +19,11 @@ const phone = ref<number>();
     <label for="phone">Телефон:</label>
     <input type="number" id="phone" name="phone" required v-model="phone" />
     <br />
-    <input type="submit" value="Отправить" @click="" />
+    <input
+      type="submit"
+      value="Отправить"
+      @click.prevent="setContact({ name, phone, email })"
+    />
   </form>
 </template>
 
