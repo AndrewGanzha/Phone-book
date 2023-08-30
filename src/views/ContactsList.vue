@@ -1,8 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <HeaderUI />
-  <ContactList />
+  <ul></ul>
 </template>
 
 <style scoped></style>
