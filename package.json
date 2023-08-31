@@ -11,9 +11,12 @@
   "dependencies": {
     "mitt": "^3.0.1",
     "pinia": "^2.1.6",
+    "uuid": "^9.0.0",
     "vue": "^3.3.4"
   },
   "devDependencies": {
+    "@types/node": "^20.5.7",
+    "@types/uuid": "^9.0.3",
     "@vitejs/plugin-vue": "^4.2.3",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
