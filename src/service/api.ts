@@ -9,13 +9,13 @@ interface Contact {
 
 export const useContactsStore = defineStore("contactDB", {
   state: () => ({
-    contacts: JSON.parse(localStorage.getItem("contactDB")) || [],
+    contacts: JSON.parse(localStorage.getItem("contactDB") || "[]"),
   }),
   getters: {
     reactiveContacts: (state) => state.contacts,
   },
   actions: {
-    updateContacts(newContacts) {
+    updateContacts(newContacts: Contact) {
       this.contacts = newContacts;
       localStorage.setItem("contactDB", JSON.stringify(newContacts));
     },
@@ -26,7 +26,7 @@ export const useContactsStore = defineStore("contactDB", {
       localStorage.setItem("contactDB", updateContact);
       eventBus.emit("contacts-updated");
     },
-    removeContact(index) {
+    removeContact(index: number) {
       this.contacts.splice(index, 1);
       this.updateContacts(this.contacts);
     },
