@@ -1,15 +1,14 @@
 <script setup lang="ts">
+import { useLocalStorageStore } from "../service/api";
 import { ref } from "vue";
-import { getAllContacts } from "../service/api";
 
-const contactList = ref(getAllContacts());
+const localStorageStore = useLocalStorageStore();
+const localStorageValue = ref(localStorageStore.localStorageValue);
 </script>
 
 <template>
   <ul>
-    <li v-for="contact in contactList">
-      {{ contact.name }}
-    </li>
+    <li></li>
   </ul>
 </template>
 

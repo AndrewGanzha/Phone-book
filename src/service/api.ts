@@ -1,3 +1,5 @@
+import { defineStore } from "pinia";
+
 interface Contact {
   name: string;
   phone: number;
@@ -13,12 +15,21 @@ function createContactDataBase() {
     localStorage.setItem("contactDB", stringContactDB);
   }
 }
-// Получение всех контактов из базы данных
-export function getAllContacts() {
-  let contactDataBaseString = localStorage.getItem("contactDB");
-  let contactDataBase = JSON.parse(contactDataBaseString!);
-  return contactDataBase;
-}
+
+export const useLocalStorageStore = defineStore("localStorage", {
+  state: () => ({
+    localStorageValue: localStorage.getItem("contactDB") || "",
+  }),
+  actions: {
+    // Получение всех контактов из базы данных
+    getAllContacts() {
+      let contactDataBaseString = localStorage.getItem("contactDB");
+      let contactDataBase = JSON.parse(contactDataBaseString!);
+      return contactDataBase;
+    },
+  },
+});
+
 // Добавление нового контакта в БД
 export function setContact({ name, phone, email }: Contact) {
   let contacts = localStorage.getItem("contactDB");
