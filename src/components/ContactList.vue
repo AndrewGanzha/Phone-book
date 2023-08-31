@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { useContactsStore } from "../service/api";
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 import eventBus from "../service/eventBus";
 
 const contactsStore = useContactsStore();
-let contacts = ref(contactsStore.reactiveContacts);
+// let contacts = ref(contactsStore.reactiveContacts);
+const searchQuery = ref('')
 
 onMounted(() => {
   eventBus.on("contacts-updated", handleContactsUpdated);
@@ -16,19 +17,30 @@ onBeforeUnmount(() => {
   eventBus.off("contacts-cleared", clearContacts);
 });
 
+const searchResults = computed(() => {
+  if (searchQuery.value.trim() === '') {
+    return contactsStore.reactiveContacts;
+  } else {
+    return contactsStore.searchContacts(searchQuery.value);
+  }
+});
+
 function handleContactsUpdated() {}
 
 function clearContacts() {}
+
+
 </script>
 
 <template>
+  <input v-model="searchQuery" placeholder="Search..." />
   <ul>
-    <li v-for="(contact, index) in contacts" :key="index">
+    <li v-for="contact in searchResults" :key="contact.id">
       <div class="text">
         <h2>{{ contact.name }}</h2>
         <p>{{ contact.email }}</p>
         <p>{{ contact.phone }}</p>
-        <button @click="contactsStore.removeContact(index)">
+        <button @click="contactsStore.removeContact(contact.id)">
           Удалить контакт
         </button>
       </div>
