@@ -28,7 +28,7 @@ export const useContactsStore = defineStore("contactDB", {
       eventBus.emit("contacts-updated");
     },
     removeContact(id: string) {
-      const index = this.contacts.findIndex(item => item.id === id)
+      const index = this.contacts.findIndex((item: Contact) => item.id === id)
       if(index !== -1) {
         this.contacts.splice(index, 1);
         this.updateContacts(this.contacts);
@@ -36,7 +36,7 @@ export const useContactsStore = defineStore("contactDB", {
     },
     searchContacts(query: string) {
       query = query.toLowerCase();
-      return this.contacts.filter(contact => {
+      return this.contacts.filter((contact: Contact) => {
         return (
           contact.name.toLowerCase().includes(query) ||
           contact.email.toLowerCase().includes(query) ||

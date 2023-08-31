@@ -4,7 +4,7 @@ import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 import eventBus from "../service/eventBus";
 
 const contactsStore = useContactsStore();
-let contacts = ref(contactsStore.reactiveContacts);
+// let contacts = ref(contactsStore.reactiveContacts);
 const searchQuery = ref('')
 
 onMounted(() => {
