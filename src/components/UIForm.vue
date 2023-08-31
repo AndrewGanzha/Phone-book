@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { useContactsStore } from "../service/api";
 const contactStore = useContactsStore();
 const isFormHide = ref<boolean>(false);
+let id = ref<string>('')
 let name = ref<string>("");
 let email = ref<string>("");
 let phone = ref<number>(0);
@@ -23,7 +24,7 @@ let phone = ref<number>(0);
     <input
       type="submit"
       value="Отправить"
-      @click.prevent="contactStore.setContact({ name, email, phone })"
+      @click.prevent="contactStore.setContact({ id, name, email, phone })"
     />
   </form>
 </template>

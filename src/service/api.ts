@@ -28,7 +28,8 @@ export const useContactsStore = defineStore("contactDB", {
       eventBus.emit("contacts-updated");
     },
     removeContact(id: string) {
-      const index = this.contacts.findIndex((item: Contact) => item.id === id)
+      console.log(id)
+      const index = this.contacts.findIndex((item: Contact) => item.id == id)
       if(index !== -1) {
         this.contacts.splice(index, 1);
         this.updateContacts(this.contacts);
