@@ -5,7 +5,7 @@ import eventBus from "../service/eventBus";
 
 const contactsStore = useContactsStore();
 // let contacts = ref(contactsStore.reactiveContacts);
-const searchQuery = ref('')
+const searchQuery = ref("");
 
 onMounted(() => {
   eventBus.on("contacts-updated", handleContactsUpdated);
@@ -18,7 +18,7 @@ onBeforeUnmount(() => {
 });
 
 const searchResults = computed(() => {
-  if (searchQuery.value.trim() === '') {
+  if (searchQuery.value.trim() === "") {
     return contactsStore.reactiveContacts;
   } else {
     return contactsStore.searchContacts(searchQuery.value);
@@ -28,8 +28,6 @@ const searchResults = computed(() => {
 function handleContactsUpdated() {}
 
 function clearContacts() {}
-
-
 </script>
 
 <template>
@@ -40,9 +38,12 @@ function clearContacts() {}
         <h2>{{ contact.name }}</h2>
         <p>{{ contact.email }}</p>
         <p>{{ contact.phone }}</p>
+      </div>
+      <div>
         <button @click="contactsStore.removeContact(contact.id)">
           Удалить контакт
         </button>
+        <button @click="">Редактировать контакт</button>
       </div>
     </li>
   </ul>
@@ -60,6 +61,7 @@ li {
   padding: 10px;
   border: 2px solid gray;
   display: flex;
+  flex-direction: column;
   text-align: center;
   .text {
     flex-direction: column;
@@ -70,5 +72,14 @@ button {
   display: block;
   margin: 10px auto;
   width: 80%;
+}
+
+input {
+  display: block;
+  width: 50%;
+  margin: 20px auto;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
 }
 </style>

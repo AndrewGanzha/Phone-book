@@ -1,13 +1,13 @@
 import { defineStore } from "pinia";
 import eventBus from "./eventBus";
-
+//Определение интерфейса для базы данных
 interface Contact {
   id: string;
   name: string;
   phone: number;
   email: string;
 }
-
+//Установка store pinia
 export const useContactsStore = defineStore("contactDB", {
   state: () => ({
     contacts: JSON.parse(localStorage.getItem("contactDB") || "[]"),
@@ -16,21 +16,29 @@ export const useContactsStore = defineStore("contactDB", {
     reactiveContacts: (state) => state.contacts,
   },
   actions: {
+    //Обеспечение реактивности БД в компоненте
     updateContacts(newContacts: Contact) {
       this.contacts = newContacts;
       localStorage.setItem("contactDB", JSON.stringify(newContacts));
     },
-    setContact({ name, phone, email }: Contact) {
-      let newContact = {id: crypto.randomUUID(), name: name, phone: phone, email: email };
+    //Методы работы с БД: добавление, удаление, поиск
+    addContact({ name, phone, email }: Contact) {
+      let newContact = {
+        id: crypto.randomUUID(),
+        name: name,
+        phone: phone,
+        email: email,
+      };
       this.contacts.push(newContact);
       const updateContact = JSON.stringify(this.contacts);
       localStorage.setItem("contactDB", updateContact);
       eventBus.emit("contacts-updated");
     },
     removeContact(id: string) {
-      console.log(id)
-      const index = this.contacts.findIndex((item: Contact) => item.id == id)
-      if(index !== -1) {
+      const index = this.contacts.findIndex(
+        (contact: Contact) => contact.id == id
+      );
+      if (index !== -1) {
         this.contacts.splice(index, 1);
         this.updateContacts(this.contacts);
       }
@@ -44,6 +52,22 @@ export const useContactsStore = defineStore("contactDB", {
           contact.phone.toString().toLowerCase().includes(query)
         );
       });
-    }
+    },
+    //Редактирование элемента
+    updateContact({ id, name, phone, email }: Contact) {
+      const index = this.contacts.findIndex(
+        (contact: Contact) => contact.id === id
+      );
+      if (index !== -1) {
+        const updatedContact = {
+          id: id,
+          name: name,
+          phone: phone,
+          email: email,
+        };
+        this.contacts[index] = updatedContact;
+        this.updateContacts(this.contacts);
+      }
+    },
   },
 });
