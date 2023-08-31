@@ -7,16 +7,6 @@ interface Contact {
   email: string;
 }
 
-// Создание пустой базы данных для будущей работы
-function createContactDataBase() {
-  let contacts = localStorage.getItem("contactDB") || [];
-  if (contacts.length === 0) {
-    let contactDB: Contact = [];
-    let stringContactDB = JSON.stringify(contactDB);
-    localStorage.setItem("contactDB", stringContactDB);
-  }
-}
-
 export const useContactsStore = defineStore("contactDB", {
   state: () => ({
     contacts: JSON.parse(localStorage.getItem("contactDB")) || [],
@@ -25,11 +15,9 @@ export const useContactsStore = defineStore("contactDB", {
     reactiveContacts: (state) => state.contacts,
   },
   actions: {
-    // Получение всех контактов из базы данных
-    getAllContacts() {
-      let contactDataBaseString = localStorage.getItem("contactDB");
-      let contactDataBase = JSON.parse(contactDataBaseString!);
-      return contactDataBase;
+    updateContacts(newContacts) {
+      this.contacts = newContacts;
+      localStorage.setItem("contactDB", JSON.stringify(newContacts));
     },
     setContact({ name, phone, email }: Contact) {
       let newContact = { name: name, phone: phone, email: email };
@@ -38,14 +26,9 @@ export const useContactsStore = defineStore("contactDB", {
       localStorage.setItem("contactDB", updateContact);
       eventBus.emit("contacts-updated");
     },
-    clearContacts() {
-      const clearContacts = (this.contacts = []);
-      const updateContact = JSON.stringify(clearContacts);
-      localStorage.setItem("contactDB", updateContact);
-      eventBus.emit("contacts-updated");
+    removeContact(index) {
+      this.contacts.splice(index, 1);
+      this.updateContacts(this.contacts);
     },
   },
 });
-
-// Добавление нового контакта в БД
-createContactDataBase();

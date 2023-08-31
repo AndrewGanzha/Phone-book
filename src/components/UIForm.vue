@@ -26,7 +26,6 @@ let phone = ref<number>();
       @click.prevent="contactStore.setContact({ name, phone, email })"
     />
   </form>
-  <button @click.prevent="contactStore.clearContacts">Очистить контакты</button>
 </template>
 
 <style scoped>
