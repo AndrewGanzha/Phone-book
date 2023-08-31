@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import eventBus from "./eventBus";
 
 interface Contact {
   name: string;
@@ -16,10 +17,13 @@ function createContactDataBase() {
   }
 }
 
-export const useLocalStorageStore = defineStore("localStorage", {
+export const useContactsStore = defineStore("contactDB", {
   state: () => ({
-    localStorageValue: localStorage.getItem("contactDB") || "",
+    contacts: JSON.parse(localStorage.getItem("contactDB")) || [],
   }),
+  getters: {
+    reactiveContacts: (state) => state.contacts,
+  },
   actions: {
     // Получение всех контактов из базы данных
     getAllContacts() {
@@ -27,18 +31,21 @@ export const useLocalStorageStore = defineStore("localStorage", {
       let contactDataBase = JSON.parse(contactDataBaseString!);
       return contactDataBase;
     },
+    setContact({ name, phone, email }: Contact) {
+      let newContact = { name: name, phone: phone, email: email };
+      this.contacts.push(newContact);
+      const updateContact = JSON.stringify(this.contacts);
+      localStorage.setItem("contactDB", updateContact);
+      eventBus.emit("contacts-updated");
+    },
+    clearContacts() {
+      const clearContacts = (this.contacts = []);
+      const updateContact = JSON.stringify(clearContacts);
+      localStorage.setItem("contactDB", updateContact);
+      eventBus.emit("contacts-updated");
+    },
   },
 });
 
 // Добавление нового контакта в БД
-export function setContact({ name, phone, email }: Contact) {
-  let contacts = localStorage.getItem("contactDB");
-  const contactsArray = contacts ? JSON.parse(contacts) : [];
-  console.log(contactsArray);
-  let newContact = { name: name, phone: phone, email: email };
-  contactsArray.push(newContact);
-  const updateContact = JSON.stringify(contactsArray);
-  localStorage.setItem("contactDB", updateContact);
-}
-
 createContactDataBase();

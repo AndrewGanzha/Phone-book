@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { setContact } from "../service/api";
+import { useContactsStore } from "../service/api";
+const contactStore = useContactsStore();
 const isFormHide = ref<boolean>(false);
 let name = ref<string>();
 let email = ref<string>();
@@ -22,9 +23,10 @@ let phone = ref<number>();
     <input
       type="submit"
       value="Отправить"
-      @click.prevent="setContact({ name, phone, email })"
+      @click.prevent="contactStore.setContact({ name, phone, email })"
     />
   </form>
+  <button @click.prevent="contactStore.clearContacts">Очистить контакты</button>
 </template>
 
 <style scoped>

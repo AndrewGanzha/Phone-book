@@ -1,14 +1,29 @@
 <script setup lang="ts">
-import { useLocalStorageStore } from "../service/api";
-import { ref } from "vue";
+import { useContactsStore } from "../service/api";
+import { ref, onMounted, onBeforeUnmount } from "vue";
+import eventBus from "../service/eventBus";
 
-const localStorageStore = useLocalStorageStore();
-const localStorageValue = ref(localStorageStore.localStorageValue);
+const contactsStore = useContactsStore();
+let contacts = ref(contactsStore.reactiveContacts);
+
+onMounted(() => {
+  eventBus.on("contacts-updated", handleContactsUpdated);
+});
+
+onBeforeUnmount(() => {
+  eventBus.off("contacts-updated", handleContactsUpdated);
+});
+
+function handleContactsUpdated() {
+  console.log("clear");
+}
 </script>
 
 <template>
-  <ul>
-    <li></li>
+  <ul v-for="contact in contacts">
+    <h2>{{ contact.name }}</h2>
+    <p>{{ contact.email }}</p>
+    <p>{{ contact.phone }}</p>
   </ul>
 </template>
 
