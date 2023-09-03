@@ -18,7 +18,6 @@ let editingContact = ref({ ...props.editContact });
 
 <template>
   <form class="modal">
-    <span class="close">&times;</span>
     <div>
       <label for="name">Name:</label>
       <input type="text" id="name" v-model="editingContact.name" />
