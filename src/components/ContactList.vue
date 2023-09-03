@@ -17,6 +17,7 @@ onBeforeUnmount(() => {
   eventBus.off("contacts-cleared", clearContacts);
 });
 
+//Реализация поиска
 const searchResults = computed(() => {
   if (searchQuery.value.trim() === "") {
     return contactsStore.reactiveContacts;
@@ -32,6 +33,7 @@ function clearContacts() {}
 
 <template>
   <input v-model="searchQuery" placeholder="Поиск контакта..." />
+  <!-- Отображение данных на странице -->
   <ul>
     <li v-for="contact in searchResults" :key="contact.id">
       <div class="text">
@@ -39,6 +41,7 @@ function clearContacts() {}
         <p>{{ contact.email }}</p>
         <p>{{ contact.phone }}</p>
       </div>
+      <!-- Функционал удаления и редактирования контакта -->
       <div>
         <button @click="contactsStore.removeContact(contact.id)">
           Удалить контакт
@@ -49,6 +52,7 @@ function clearContacts() {}
       </div>
     </li>
   </ul>
+  <!-- Форма для редактирования контакта -->
   <EditContactForm
     :editContact="contactsStore.editingContact"
     v-if="contactsStore.editingContact !== null"

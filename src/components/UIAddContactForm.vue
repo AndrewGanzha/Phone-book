@@ -2,11 +2,28 @@
 import { ref } from "vue";
 import { useContactsStore } from "../service/api";
 const contactStore = useContactsStore();
-const isFormHide = ref<boolean>(false);
+const isFormHide = ref<boolean>(true);
 let id = ref<string>("");
 let name = ref<string>("");
 let email = ref<string>("");
-let phone = ref<string>('');
+let phone = ref<string>("");
+
+function addContact(name: string, email: string, phone: string, id: string) {
+  if (name.length < 3) {
+    alert("Введите корректные данные! Имя - минимум 3 символа");
+    return;
+  }
+  if (email.length < 5) {
+    alert("Введите корректные данные! Email - минимум 5 символов");
+    return;
+  }
+  if (phone.length < 6) {
+    alert("Введите корректные данные! Телефон - минимум 6 символов");
+    return;
+  }
+
+  contactStore.addContact({ id, name, email, phone });
+}
 </script>
 
 <template>
@@ -24,7 +41,7 @@ let phone = ref<string>('');
     <input
       type="submit"
       value="Отправить"
-      @click.prevent="contactStore.addContact({ id, name, email, phone })"
+      @click.prevent="addContact(name, email, phone, id)"
     />
   </form>
 </template>
