@@ -23,6 +23,13 @@ function addContact(name: string, email: string, phone: string, id: string) {
   }
 
   contactStore.addContact({ id, name, email, phone });
+  clearForm();
+}
+
+function clearForm() {
+  name.value = "";
+  email.value = "";
+  phone.value = "";
 }
 </script>
 
@@ -60,7 +67,7 @@ function addContact(name: string, email: string, phone: string, id: string) {
     />
     <br />
     <input
-      type="submit"
+      type="reset"
       value="Отправить"
       @click.prevent="addContact(name, email, phone, id)"
     />
