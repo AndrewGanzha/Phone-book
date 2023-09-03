@@ -83,6 +83,9 @@ button {
   display: block;
   margin: 10px auto;
   width: 80%;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
 }
 
 input {

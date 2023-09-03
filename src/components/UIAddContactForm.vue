@@ -30,13 +30,34 @@ function addContact(name: string, email: string, phone: string, id: string) {
   <button @click="isFormHide = !isFormHide">Добавить контакт</button>
   <form id="myForm" :class="{ hide: isFormHide }">
     <label for="name">Имя:</label>
-    <input type="text" id="name" name="name" required v-model="name" />
+    <input
+      type="text"
+      autocomplete="off"
+      id="name"
+      name="name"
+      required
+      v-model="name"
+    />
     <br />
     <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required v-model="email" />
+    <input
+      type="email"
+      id="email"
+      name="email"
+      required
+      v-model="email"
+      autocomplete="off"
+    />
     <br />
     <label for="phone">Телефон:</label>
-    <input type="number" id="phone" name="phone" required v-model="phone" />
+    <input
+      type="number"
+      id="phone"
+      name="phone"
+      required
+      v-model="phone"
+      autocomplete="off"
+    />
     <br />
     <input
       type="submit"
@@ -78,5 +99,18 @@ input {
 }
 .hide {
   display: none;
+}
+
+@media (max-width: 599px) {
+  label {
+    width: 300px;
+  }
+
+  input {
+    width: 300px;
+    border-radius: 8px;
+    padding: 10px;
+    cursor: pointer;
+  }
 }
 </style>
