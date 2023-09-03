@@ -6,7 +6,7 @@ const isFormHide = ref<boolean>(false);
 let id = ref<string>("");
 let name = ref<string>("");
 let email = ref<string>("");
-let phone = ref<number>(0);
+let phone = ref<string>('');
 </script>
 
 <template>

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { useContactsStore } from "../service/api";
-import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 import eventBus from "../service/eventBus";
+import { ref, computed, onMounted, onBeforeUnmount } from "vue";
+import EditContactForm from "../components/UIEditContactForm.vue";
 
 const contactsStore = useContactsStore();
-// let contacts = ref(contactsStore.reactiveContacts);
 const searchQuery = ref("");
 
 onMounted(() => {
@@ -31,7 +31,7 @@ function clearContacts() {}
 </script>
 
 <template>
-  <input v-model="searchQuery" placeholder="Search..." />
+  <input v-model="searchQuery" placeholder="Поиск контакта..." />
   <ul>
     <li v-for="contact in searchResults" :key="contact.id">
       <div class="text">
@@ -43,10 +43,16 @@ function clearContacts() {}
         <button @click="contactsStore.removeContact(contact.id)">
           Удалить контакт
         </button>
-        <button @click="">Редактировать контакт</button>
+        <button @click="contactsStore.openEditModal(contact)">
+          Редактировать контакт
+        </button>
       </div>
     </li>
   </ul>
+  <EditContactForm
+    :editContact="contactsStore.editingContact"
+    v-if="contactsStore.editingContact !== null"
+  />
 </template>
 
 <style scoped>
@@ -63,6 +69,7 @@ li {
   display: flex;
   flex-direction: column;
   text-align: center;
+  border-radius: 20px;
   .text {
     flex-direction: column;
   }

@@ -4,13 +4,14 @@ import eventBus from "./eventBus";
 interface Contact {
   id: string;
   name: string;
-  phone: number;
+  phone: string;
   email: string;
 }
 //Установка store pinia
 export const useContactsStore = defineStore("contactDB", {
   state: () => ({
     contacts: JSON.parse(localStorage.getItem("contactDB") || "[]"),
+    editingContact: null as Contact | null,
   }),
   getters: {
     reactiveContacts: (state) => state.contacts,
@@ -54,20 +55,20 @@ export const useContactsStore = defineStore("contactDB", {
       });
     },
     //Редактирование элемента
-    updateContact({ id, name, phone, email }: Contact) {
+    openEditModal(contact: Contact) {
+      this.editingContact = { ...contact };
+    },
+    saveEditedContact(editedContact: Contact) {
       const index = this.contacts.findIndex(
-        (contact: Contact) => contact.id === id
+        (contact: Contact) => contact.id === editedContact.id
       );
       if (index !== -1) {
-        const updatedContact = {
-          id: id,
-          name: name,
-          phone: phone,
-          email: email,
-        };
-        this.contacts[index] = updatedContact;
-        this.updateContacts(this.contacts);
+        this.contacts[index] = editedContact;
       }
+      this.editingContact = null;
+      const updateContact = JSON.stringify(this.contacts);
+      localStorage.setItem("contactDB", updateContact);
+      eventBus.emit("contacts-updated");
     },
   },
 });
