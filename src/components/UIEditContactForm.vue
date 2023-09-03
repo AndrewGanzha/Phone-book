@@ -9,24 +9,11 @@ interface Contact {
 }
 
 let props = defineProps({
-  editContact: Object as () => Contact,
+  editContact: { type: Object as () => Contact, required: true },
 });
 
 const contactStore = useContactsStore();
 let editingContact = ref({ ...props.editContact });
-
-function sendEditContact(editingContact: Contact) {
-  if (editingContact === undefined) {
-    editingContact = {
-      id: "string",
-      name: "string",
-      phone: "string",
-      email: "string",
-    };
-  } else {
-    contactStore.saveEditedContact(editingContact);
-  }
-}
 </script>
 
 <template>
@@ -47,7 +34,7 @@ function sendEditContact(editingContact: Contact) {
     <input
       type="submit"
       placeholder="Отправить"
-      @click.prevent="sendEditContact(editingContact)"
+      @click.prevent="contactStore.saveEditedContact(editingContact)"
     />
   </form>
 </template>
